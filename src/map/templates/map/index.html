@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,10 @@
 
 	<!-- Custom styles for this template -->
 
-	<link href="css/map.css" rel="stylesheet">
+	<link href="{% static 'map/css/map.css' %}" rel="stylesheet">
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
@@ -25,11 +29,10 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATUF6mOF6zWfNQK_oHhgJ3PMC44CGhA84&sensor=FALSE">
 	</script>
-	<script type='text/javascript' src="js/infobox.js"></script>
-	<script type='text/javascript' src="js/wamc.js"></script>
+	<script type='text/javascript' src="{% static 'map/js/infobox.js' %}"></script>
+	<script type='text/javascript' src="{% static 'map/js/wamc.js' %}"></script>
 
 
 	<script type="text/javascript">
@@ -52,13 +55,13 @@
 			</div>
 			<div id="zoom-controls">
 			<ul>
-				<li id="inc-zoom-btn"><img src="images/plus_button.png" /></li>
-				<li id="dec-zoom-btn"><img src="images/minus_button.png" /></li>
+				<li id="inc-zoom-btn"><img src="{% static 'map/images/plus_button.png' %}" /></li>
+				<li id="dec-zoom-btn"><img src="{% static 'map/images/minus_button.png' %}" /></li>
 			</ul>
 			</div>
 			<div id="location-controls">
 			<ul>
-				<li id="cur-loc-btn"><img src="images/minus_button.png" /></li>
+				<li id="cur-loc-btn"><img src="{% static 'map/images/minus_button.png' %}" /></li>
 			</ul>
 			</div>
 		</div>

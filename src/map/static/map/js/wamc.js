@@ -279,10 +279,10 @@ WAMC.mapManager = function () {
 		zoom: 18,
 		zoomControl: false,
 		mapTypeControlOptions: {
-		    mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
+		    mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, MY_MAPTYPE_ID]
 		},
 		panControl: false,
-		mapTypeControl: false,
+		// mapTypeControl: false,
 		scaleControl: false,
 		streetViewControl: false,
 		overviewMapControl: false,
@@ -371,7 +371,7 @@ WAMC.mapManager = function () {
 	];
 
 	styledMapOptions = {
-        name: 'Custom Style'
+        name: 'Footpaths'
     };
 
     panToMarker = function (marker) {
@@ -398,6 +398,7 @@ WAMC.mapManager = function () {
             mapOptions);
             var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
             this.map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
+            this.map.setTilt(45);
             // console.log("loaded mapManager");
         }
     };
