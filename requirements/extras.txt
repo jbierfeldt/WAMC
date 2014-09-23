@@ -1,0 +1,22 @@
+install postgres.app
+psql `create database lensplease`
+
+mkvirtualenv lensplease
+
+git clone https://github.com/jbierfeldt/lensplease.git
+
+export PATH=/Applications/Postgres.app/Contents/Versions/9.3/bin:$PATH
+export CFLAGS=-Qunused-arguments
+export CPPFLAGS=-Qunused-arguments
+
+pip install -r development.txt
+
+python manage.py syncdb --settings=lensplease.settings.development
+python manage.py migrate --settings=lensplease.settings.development
+python manage.py runserver --settings=lensplease.settings.development
+
+
+To run server:
+workon lensplease
+cd ~/Dev/lensplease/lensplease/lensplease/
+python manage.py runserver --settings=lensplease.settings.development
