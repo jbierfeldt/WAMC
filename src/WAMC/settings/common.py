@@ -21,7 +21,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'map',
+    'locations',
+    'taggit',
 )
+
+SOUTH_MIGRATION_MODULES = {
+    'taggit': 'taggit.south_migration',
+}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
