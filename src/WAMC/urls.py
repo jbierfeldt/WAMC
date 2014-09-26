@@ -8,7 +8,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name="map/index.html")),
-    url(r'^(?P<tag_name>[-_\w]+)/$', LocationDetailView.as_view(), name='location-detail'),
+    url(r'^tags/$', LocationDetailView.as_view(), name='location-detail'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )

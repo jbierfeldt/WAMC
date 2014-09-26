@@ -11,8 +11,10 @@
 	<!-- Custom styles for this template -->
 
 	<link href="{% static 'map/css/map.css' %}" rel="stylesheet">
+	<link href="{% static 'map/css/jquery-ui.min.css' %}" rel="stylesheet">
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="{% static 'map/js/jquery-ui.min.js' %}"></script>
 
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -45,12 +47,16 @@
 		<div id="map-controls">
 			<div id="main-controls-container">
 				<div id="control-bar">
-					<form id="search-form" class="navbar-form" role="form">
-            			<div class="form-group">
-              				<input type="text" placeholder='"BSLC", "Cobb", "MATH151"' class="form-control">
-            			</div>
-            			<button type="submit" class="btn btn-info">Find it</button>
-          			</form>
+					<form class="form-horizontal" role="form">
+  						<div class="form-group form-group-lg">
+  							<div class="col-xs-9">
+      							<input id="search_bar" class="form-control" type="text" id="formGroupInputLarge" placeholder="e.g. C-402, BSLC, Harper">
+    						</div>
+    						<div class="col-xs-3">
+    							<button type="submit" class="btn-lg btn-info">Find it</button>
+    						</div>
+  						</div>
+  					</form>
 				</div>
 			</div>
 			<div id="zoom-controls">
@@ -61,7 +67,7 @@
 			</div>
 			<div id="location-controls">
 			<ul>
-				<li id="cur-loc-btn"><img src="{% static 'map/images/minus_button.png' %}" /></li>
+				<li id="cur-loc-btn"><img src="{% static 'map/images/search_button.png' %}" /></li>
 			</ul>
 			</div>
 		</div>

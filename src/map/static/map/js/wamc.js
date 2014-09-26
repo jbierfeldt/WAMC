@@ -39,7 +39,7 @@ WAMC.markerManager = function () {
 	icons = {
 		start: new google.maps.MarkerImage(
 		// URL
-		'images/start.png',
+		'static/map/images/start.png',
 			// (width,height)
 			new google.maps.Size( 18, 32 ),
 			// The origin point (x,y)
@@ -49,7 +49,7 @@ WAMC.markerManager = function () {
 		),
 		end: new google.maps.MarkerImage(
 			// URL
-			'images/end.png',
+			'static/map/images/end.png',
 			// (width,height)
 			new google.maps.Size( 18, 32 ),
 			// The origin point (x,y)
@@ -59,7 +59,7 @@ WAMC.markerManager = function () {
 		),
 		unselected: new google.maps.MarkerImage(
 			// URL
-			'images/unselected_marker.png',
+			'static/map/images/unselected_marker.png',
 			// (width,height)
 			new google.maps.Size( 36, 63 ),
 			// The origin point (x,y)
@@ -69,7 +69,7 @@ WAMC.markerManager = function () {
 		),
 		selected: new google.maps.MarkerImage(
 			// URL
-			'images/selected_marker.png',
+			'static/map/images/selected_marker.png',
 			// (width,height)
 			new google.maps.Size( 50, 87 ),
 			// The origin point (x,y)
@@ -79,7 +79,7 @@ WAMC.markerManager = function () {
 		),
 		current: new google.maps.MarkerImage(
 			// URL
-			'images/current_marker.png',
+			'static/map/images/current_marker.png',
 			// (width,height)
 			new google.maps.Size( 22, 22 ),
 			// The origin point (x,y)
@@ -159,7 +159,6 @@ WAMC.locationServices = function () {
 	};
 
 	displayAndWatchCurrentLocation = function displayAndWatchCurrentLocation(position) {
-		console.log(position);
 		if (bounds.contains(new google.maps.LatLng(position.coords.latitude,
 				position.coords.longitude)) == true)
 		{
@@ -214,22 +213,10 @@ WAMC.locationServices = function () {
 }();
 
 WAMC.infoBoxManager = function () {
-	var mouseoverInfoBox, clickInfoBox;
+	var theInfoBox;
 
-	// Set the InfoBox for both the mouseover and click boxes
 	// Requires InfoBox.js
-	mouseoverInfoBox = new InfoBox({
-		content: '',
-		boxClass: "stop-info-box",
-		maxWidth: 0,
-		closeBoxURL: "",
-		disableAutoPan: true,
-		// Pixel offset is assuming width: 130px and padding: 10px
-		// for the stop-info-box class
-		pixelOffset: new google.maps.Size(-85, 10)
-	});
-
-	clickInfoBox = new InfoBox({
+	theInfoBox = new InfoBox({
 		content: '',
 		boxClass: "stop-info-box",
 		maxWidth: 0,
@@ -241,24 +228,19 @@ WAMC.infoBoxManager = function () {
 	});
 
 	return {
-		updateMouseoverInfoBox: function (marker, state) {
-        	if (state == "on"){
-        		mouseoverInfoBox.setContent(marker.html);
-        		mouseoverInfoBox.open(WAMC.mapManager.map, marker)
-        	}
-        	if (state == "off"){
-        		mouseoverInfoBox.close()
-        	}
-        },
-        updateClickInfoBox: function (marker) {
+        updateInfoBox: function (marker, duration) {
+        	var box_context;
 			//Close previous ClickInfoBox
-			clickInfoBox.close();
+			theInfoBox.close();
 
-            //If functin is passed an actual marker, update to it
-            if (marker != null){
-            	clickInfoBox.setContent(marker.html);
-            	clickInfoBox.open(WAMC.mapManager.map, marker)
-            }
+			if (WAMC.locationServices.LOCATION_SERVICES_ENABLED == true) {
+				box_content = marker.title + "<br />" + duration
+			} else {
+				box_content = marker.title
+			}
+
+            theInfoBox.setContent(box_content);
+            theInfoBox.open(WAMC.mapManager.map, marker);
         },
 		init: function() {
 			// console.log("Loaded infoBoxManager");
@@ -410,13 +392,13 @@ WAMC.directionsManager = function () {
 	directionsService = new google.maps.DirectionsService();
 	directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});		
 
-	calcRoute = function calcRoute(classes_array) {
-		var start, end, waypoints, request;
+	calcRoute = function calcRoute(marker, classes_array) {
+		var start, end, waypoints, request, calcRoute, newDirection;
 
 		// START
 		// If user is using location services, use their current location
 		// as the start position. If not, use the campus center.
-		if (WAMC.locationServices.LOCATION_SERVICES_ENABLED != false) {
+		if (WAMC.locationServices.LOCATION_SERVICES_ENABLED == true) {
 			start = WAMC.locationServices.current_location;
 		} else {
 			start = new google.maps.LatLng(41.789583,-87.599651);
@@ -447,6 +429,8 @@ WAMC.directionsManager = function () {
 
 		directionsService.route(request, function(response, status) {
 			if (status == google.maps.DirectionsStatus.OK) {
+				// Give infoBox the marker and the duration
+				WAMC.infoBoxManager.updateInfoBox(marker, response.routes[0].legs[0].duration.text)
       			directionsDisplay.setDirections(response);
     		}
 		});
@@ -454,10 +438,37 @@ WAMC.directionsManager = function () {
 		directionsDisplay.setMap(WAMC.mapManager.map);
 	};
 
+	newDirection = function newDirection(response) {
+		// Remove old markers
+		WAMC.directionsManager.removeAllDirectionsMarkers();
+
+		// Set new Marker
+		var marker, places;
+		marker = WAMC.markerManager.makeMarker(
+			new google.maps.LatLng(response.lat, response.lng),
+			"selected",
+			response.name
+		);
+		WAMC.directionsManager.direction_markers.push(marker);
+
+		// Place marker in Array for directionsManager
+		places = new Array();
+		places.push(marker);
+
+		$( "#search_bar" ).val(response.name);
+		calcRoute(marker, places);
+	};
+
 	return {
-		test: false,
-		route_to: function (classes_array) {
-			calcRoute(classes_array);
+		direction_markers: new Array(),
+		newDirection: function(response) {
+			newDirection(response);
+		},
+		removeAllDirectionsMarkers: function () {
+			for (var i = 0; i < this.direction_markers.length; i++) {
+				this.direction_markers[i].setMap(null);
+			}
+			this.direction_markers = new Array();
 		},
 		init: function() {
 			console.log("loaded directionsManager");
@@ -489,6 +500,37 @@ WAMC.controlManager = function () {
 				alert("Please enable Location Services");
 			}
 		};
+		$("#search_bar").on('click', function() {
+			$( "#search_bar" ).val("");
+		});
+		// When form is "submitted", prevent
+		// actual submission and perform jQuery
+		$("form").on('submit', function(e) {
+			var query;
+
+			e.preventDefault();
+			e.returnValue = false;
+
+			query = $("#search_bar").val();
+
+			$.ajax({
+				type: "GET",
+				url: "tags/",
+				data: {'tag': query},
+				success: function(response){
+					WAMC.directionsManager.newDirection(response);
+					$( "#search_bar" ).blur();
+				},
+				error: function(xhr, ajaxOptions, thrownError){
+					// $( "#search_bar" ).effect("shake",
+					// 	{times:1});
+					$( "#search_bar" ).effect( "shake" );
+					$( "#search_bar" ).val("");
+				}
+			});
+			
+			// alert("Your search for: \"" + query + "\" was useless.");
+		});
 	};
 
 	return {

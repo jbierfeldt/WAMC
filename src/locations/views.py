@@ -1,7 +1,9 @@
 from django.core import serializers
-
 from django import http
+from django.utils.text import slugify
+
 import json
+
 from django.views.generic.detail import BaseDetailView
 
 from locations.models import Location
@@ -31,7 +33,8 @@ class LocationDetailView(BaseDetailView, JSONResponseMixin):
 	model = Location
 
 	def get_object(self, queryset=None):
-		obj = Location.objects.get(tags__name=self.kwargs['tag_name'])
+		slug = slugify(self.request.GET['tag'])
+		obj = Location.objects.get(tags__slug=slug)
 		return obj
 
 # Create your views here.

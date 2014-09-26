@@ -47,7 +47,8 @@ html, body {
 	z-index: 3;
 	pointer-events: auto;
 	height: auto;
-	padding: 6px 0;
+	padding: 10px;
+	padding-bottom: .5px;
 }
 
 ::-webkit-scrollbar {
@@ -119,6 +120,13 @@ html, body {
 	top:-20px;
 	left: 75px;
 }
+
+#search_bar::-webkit-input-placeholder {
+    opacity: 0.7;
+}
+#search_bar::-moz-placeholder {
+    opacity: 0.7;
+}​
 
 
 /*@media screen and (-webkit-min-device-pixel-ratio: 2) and (max-width: 568px), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1) { 
