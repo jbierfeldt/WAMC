@@ -3,6 +3,7 @@ from django import http
 from django.utils.text import slugify
 
 import json
+import re
 
 from django.views.generic.detail import BaseDetailView
 
@@ -33,8 +34,12 @@ class LocationDetailView(BaseDetailView, JSONResponseMixin):
 	model = Location
 
 	def get_object(self, queryset=None):
-		slug = slugify(self.request.GET['tag'])
+		clean_split = re.split('-(?=[0-9])', self.request.GET['tag'])
+		print clean_split
+		slug = slugify(clean_split[0])
+		print slug
 		obj = Location.objects.get(tags__slug=slug)
 		return obj
 
 # Create your views here.
+	
