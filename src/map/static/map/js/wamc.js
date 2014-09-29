@@ -357,10 +357,6 @@ WAMC.mapManager = function () {
     };
 
     panToMarker = function (marker) {
-    	var container_height;
-    	container_height = document.getElementById('map-container').clientHeight;
-		//If the top bar is open, should pan to under. If not, should pan to center.
-		//Offset target Latlng point by 1/4 of the height of the viewport
 		WAMC.mapManager.map.panTo(marker.position);
 	};
     
@@ -512,6 +508,9 @@ WAMC.controlManager = function () {
 			e.returnValue = false;
 
 			query = $("#search_bar").val();
+
+			// Google Analytics Tracking for queries
+			if (ga) { ga('send', 'event', 'query', 'search', query) }
 
 			$.ajax({
 				type: "GET",
