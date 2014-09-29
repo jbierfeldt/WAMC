@@ -11,10 +11,8 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = [
-    '.lensplease.com', # Allow domain and subdomains
-    '.lensplease.com.', # Also allow FQDN and subdomains
-    '.shutterclub.co',
-    '.shutterclub.co.',
+    '162.243.116.167',
+    'uchicago.wherearemyclasses.com',
 	]
 	
 DATABASES = {
