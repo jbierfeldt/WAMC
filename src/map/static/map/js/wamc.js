@@ -261,7 +261,7 @@ WAMC.mapManager = function () {
 		zoom: 18,
 		zoomControl: false,
 		mapTypeControlOptions: {
-		    mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, MY_MAPTYPE_ID]
+		    mapTypeIds: [google.maps.MapTypeId.SATELLITE, MY_MAPTYPE_ID]
 		},
 		panControl: false,
 		// mapTypeControl: false,
