@@ -1,4 +1,4 @@
 *.pyc
 #*
 *~
-lensplease/static/
+src/static/
