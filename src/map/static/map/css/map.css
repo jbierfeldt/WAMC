@@ -41,6 +41,13 @@ html, body {
 	margin-right: auto;
 }
 
+@media only screen 
+and (max-width: 755px) {
+    #main-controls-container {
+	    width: 100%;
+    }
+}
+
 #control-bar {
 	width: 100%;
 	background-color: rgba(0,0,0,0.7);
