@@ -12,7 +12,7 @@ html, body {
 	height: 100%;
 	position: relative;
 	margin: 0 auto;
-	overflow: auto;
+	overflow: hidden;
 }
 
 #map-canvas {
@@ -47,6 +47,11 @@ and (max-width: 755px) {
 	    width: 100%;
 	    top: 0%;
     }
+    
+    .btn-block {
+        margin-top: 5px;
+    }
+    
 }
 
 #control-bar {
