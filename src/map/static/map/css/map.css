@@ -45,6 +45,7 @@ html, body {
 and (max-width: 755px) {
     #main-controls-container {
 	    width: 100%;
+	    top: 0%;
     }
 }
 
