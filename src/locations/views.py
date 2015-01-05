@@ -34,7 +34,7 @@ class LocationDetailView(BaseDetailView, JSONResponseMixin):
 	model = Location
 
 	def get_object(self, queryset=None):
-		clean_split = re.split('-(?=[0-9])', self.request.GET['tag'])
+		clean_split = re.split('-(?=[0-9])|\s(?=[0-9])', self.request.GET['tag'])
 		print clean_split
 		slug = slugify(clean_split[0])
 		print slug
