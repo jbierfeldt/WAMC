@@ -17,15 +17,20 @@ WAMC.settings = function () {
 WAMC.loader = function () {
 	return {
 		init: function() {
-			// Load Modules
-			WAMC.settings.init();
-			WAMC.directionsManager.init();
-			WAMC.locationServices.init();
-			WAMC.displayManager.init();
-			WAMC.mapManager.init();
-			WAMC.markerManager.init();
-			WAMC.controlManager.init();
-			WAMC.infoBoxManager.init();
+    		if (google) {
+                // Load Modules
+                WAMC.settings.init();
+                WAMC.directionsManager.init();
+                WAMC.locationServices.init();
+                WAMC.displayManager.init();
+                WAMC.mapManager.init();
+                WAMC.markerManager.init();
+                WAMC.controlManager.init();
+                WAMC.infoBoxManager.init();
+                google.maps.event.addListenerOnce(WAMC.mapManager.map, 'tilesloaded', function(){
+                    document.getElementById('loadingmask').style.display = "none";
+                });
+            }
 		}
 	};
 }();
@@ -81,7 +86,7 @@ WAMC.markerManager = function () {
 			// URL
 			'static/map/images/current_marker.png',
 			// (width,height)
-			new google.maps.Size( 22, 22 ),
+			new google.maps.Size( 51, 65 ),
 			// The origin point (x,y)
 			new google.maps.Point( 0, 0 ),
 			// The anchor point (x,y)
@@ -173,7 +178,6 @@ WAMC.locationServices = function () {
                     pos.coords.latitude,
                     pos.coords.longitude
                 );
-                console.log(WAMC.locationServices.current_location)
     		    WAMC.markerManager.setMarkerPosition(WAMC.locationServices.current_location_marker, WAMC.locationServices.current_location);
 		    },
 		    function (err) {
@@ -466,7 +470,7 @@ WAMC.directionsManager = function () {
 			this.direction_markers = new Array();
 		},
 		init: function() {
-			console.log("loaded directionsManager");
+// 			console.log("loaded directionsManager");
 		}
 	};
 }();
@@ -544,7 +548,7 @@ WAMC.displayManager = function () {
 
 	return {
 		init: function() {
-			console.log("loaded displayManager");
+// 			console.log("loaded displayManager");
 		}
 	};
 }();

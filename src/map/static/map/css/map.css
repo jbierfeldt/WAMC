@@ -7,6 +7,16 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 
 html, body {
   height: 100%; }
+  
+#loadingmask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background:#fff url("../images/ajax-loader.gif") center no-repeat;
+    z-index: 4;
+    display: inherit;
+}
 
 #map-container { 
 	height: 100%;
@@ -140,40 +150,3 @@ and (max-width: 755px) {
 #search_bar::-moz-placeholder {
     opacity: 0.7;
 }​
-
-
-/*@media screen and (-webkit-min-device-pixel-ratio: 2) and (max-width: 568px), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1) { 
-  #control-bar-menu li img {
-  	min-width: 88px;
-  }
-  #main-controls-container  {
-		width: 96%;
-	}
-
-}
-
-@media screen and (min-width: 320px) and (max-width: 568px) {
-	#map-container {
-		height: 100%;
-		width: 100%;
-	}
-
-	#control-bar-menu li {
-		width: 14%;
-	}
-	#control-bar-menu li img {
-		min-width: 44px;
-	}
-	#main-controls-container  {
-		width: 96%;
-	}
-	.stop-info-box {
-		font-size: 1.5em;
-	}
-	
-}
-@media screen and (min-width: 569px) and (max-width: 1000px){
-	#control-bar-menu li img{
-			width: 16%;
-	}
-}*/
